@@ -72,71 +72,79 @@ def verificarVitoria():
             while ic<3:
                 if(velha[il][ic]==s):
                     soma+=1
-                    ic+=1                    
-                    if(soma==3):
-                        vitoria=s
-                        break
-                    il+=1
-                    if(vitoria!="n"):
-                        break
-                    #Verificar Colunas                 
-                    il=ic=0
-                    while ic<3:
-                         soma=0
-                         il=0
-                         while il<3:
-                              if(velha[il][ic]==s):
-                                   soma+=1
-                                   il+=1                                                                     
-                                   if(soma==3):
-                                        vitoria=s
-                                        break
-                                   ic+=1
-                                   if(vitoria!="n"):
-                                         break
-                                   #Verifica diagonal 1
-                                   soma=0
-                                   idiag=0
-                                   while idiag<3:
-                                       if(velha[idiag][idiag]==s):
-                                           soma+=1
-                                           idiag+=1
-                                           if(soma==3):
-                                               vitoria=s
-                                               break
-                                           #Verifica diagonal 1
-                                   soma=0
-                                   idiagl=0
-                                   idiagc=2
-                                   while idiagc>=0:
-                                       if(velha[idiag][idiag]==s):
-                                           soma+=1
-                                           idiagl+=1
-                                           idiagc-=1
-                                           if(soma==3):
-                                               vitoria=s
-                                               break
-                                           return vitoria
-                                       def redefinir():
-                                           global velha
-                                           global jogadas
-                                           global quemJoga
-                                           global maxJogadas
-                                           global vit                                         
-                                           jogadas=0
-                                           quemJoga=2 # 1=CPU - 2=Jogador
-                                           maxJogadas=9
-                                           vit="n"
-                                           velha=[
-                                                   [" "," "," "], #L0C0 L0C1 L0C2
-                                                           [" "," "," "], #L1C0 L1C1 L1C2
-                                                                   [" "," "," "]  #L2C0 L2C1 L2C2
-                                                                   ]
-                                           while True:
-                                               tela()
-                                               jogadorJoga()
-                                               cpuJoga()
-                                               tela()
-                                               vit=verificarVitoria()
-                                               if(vit!="n")or(jogadas>=maxJogadas):
-                                                  break
+                ic+=1                    
+                if(soma==3):
+                    break
+                il+=1
+                if(vitoria!="n"):
+                    break
+        #Verificar Colunas                 
+        il=ic=0
+        while ic<3:
+            soma=0
+            il=0
+            while il<3:
+                if(velha[il][ic]==s):
+                    soma+=1
+                il+=1                                                                     
+            if(soma==3):
+                vitoria=s
+                break
+            ic+=1
+        if(vitoria!="n"):
+            break
+        #Verifica diagonal 1
+        soma=0
+        idiag=0
+        while idiag<3:
+            if(velha[idiag][idiag]==s):
+                soma+=1
+            idiag+=1
+            if(soma==3):
+                vitoria=s
+                break
+        #Verifica diagonal 2
+        soma=0
+        idiagl=0
+        idiagc=2
+        while idiagc>=0:
+            if(velha[idiagl][idiagc]==s):
+                soma+=1
+                idiagl+=1
+                idiagc-=1
+                if(soma==3):
+                    vitoria=s
+                    break
+        return vitoria
+    
+def redefinir():
+    global velha
+    global jogadas
+    global quemJoga
+    global maxJogadas
+    global vit                                         
+    jogadas=0
+    quemJoga=2 # 1=CPU - 2=Jogador
+    maxJogadas=9
+    vit="n"
+    velha=[
+            [" "," "," "], #L0C0 L0C1 L0C2
+            [" "," "," "], #L1C0 L1C1 L1C2
+            [" "," "," "]  #L2C0 L2C1 L2C2
+    ]
+while(jogarNovamente=="s"):
+    while True:
+        tela()
+        jogadorJoga()
+        cpuJoga()
+        tela()
+        vit=verificarVitoria()
+        if(vit!="n")or(jogadas>=maxJogadas):
+            break
+        print(Fore.RED + "FIM DE JOGO" + Fore.YELLOW)
+        if(vit=="X" or vit=="O"):
+            print("Resultado: Jogador " + vit + " venceu")
+        else:
+            print("Resultado: Empate")
+            jogarNovamente=input(Fore.BLUE + "Jogar Novamente? [s/n]: " + Fore.RESET)
+            redefinir()
